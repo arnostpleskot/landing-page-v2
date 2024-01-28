@@ -14,7 +14,7 @@ const { bookmarks } = Astro.props;
     bookmarks && bookmarks.length > 0 ? (
       <section>
         <h2 class="mb-6 text-xl font-black uppercase">Bookmarks</h2>
-        <ul class="grid grid-cols-4 gap-4">
+        <ul class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {bookmarks.map((bookmarksCategory, index) => {
             return (
               <li>
