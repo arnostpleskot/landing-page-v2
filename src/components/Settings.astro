@@ -1,0 +1,124 @@
+---
+import { Icon } from "astro-icon/components";
+
+type Option = {
+  value: string;
+  label: string;
+};
+
+const themes: Option[] = [
+  { value: "system", label: "System" },
+  { value: "light", label: "Light" },
+  { value: "dark", label: "Dark" },
+];
+
+const colors: Option[] = [
+  { value: "purple", label: "Purple" },
+  { value: "yellow", label: "Yellow" },
+  { value: "gray", label: "Gray" },
+  { value: "beige", label: "Beige" },
+];
+---
+
+<button
+  id="settings-open"
+  class="fixed bottom-6 right-6 rounded-full bg-primary p-2 text-secondary dark:bg-secondary dark:text-primary"
+>
+  <Icon name={`material-symbols:settings-rounded`} size={24} />
+</button>
+
+<dialog
+  id="settings-dialog"
+  class="fixed w-96 max-w-full bg-secondary p-6 pt-12 text-primary dark:bg-primary dark:text-secondary"
+>
+  <h2 class="mb-6 text-xl font-black">Settings</h2>
+
+  <div class="space-y-4">
+    <label for="theme" class="flex flex-row items-center justify-between">
+      Theme
+      <select
+        id="theme"
+        class="block w-1/2 rounded-md bg-primary p-2 text-secondary dark:bg-secondary dark:text-primary"
+      >
+        {
+          themes.map(({ value, label }) => (
+            <option value={value}>{label}</option>
+          ))
+        }
+      </select>
+    </label>
+
+    <label for="color" class="flex flex-row items-center justify-between">
+      Color
+      <select
+        id="color"
+        class="block w-1/2 rounded-md bg-primary p-2 text-secondary dark:bg-secondary dark:text-primary"
+      >
+        {
+          colors.map(({ value, label }) => (
+            <option value={value}>{label}</option>
+          ))
+        }
+      </select>
+    </label>
+  </div>
+
+  <form method="dialog">
+    <button type="submit" class="radius-full absolute right-2 top-2 p-2">
+      <Icon name={`material-symbols:close-rounded`} size={24} />
+    </button>
+  </form>
+</dialog>
+
+<script>
+  const opener = document.getElementById("settings-open");
+  const dialog = document.getElementById("settings-dialog");
+
+  if (
+    opener &&
+    dialog instanceof HTMLDialogElement &&
+    typeof localStorage !== "undefined"
+  ) {
+    opener.addEventListener("click", () => {
+      dialog.showModal();
+
+      const theme = document.getElementById("theme") as HTMLSelectElement;
+      const color = document.getElementById("color") as HTMLSelectElement;
+
+      if (theme) {
+        theme.addEventListener("change", () => {
+          if (theme.value === "dark") {
+            document.documentElement.classList.add("dark");
+          } else if (
+            theme.value === "system" &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches
+          ) {
+            document.documentElement.classList.add("dark");
+          } else {
+            document.documentElement.classList.remove("dark");
+          }
+
+          localStorage.setItem("theme", theme.value);
+        });
+      }
+
+      if (color) {
+        color.addEventListener("change", () => {
+          document.documentElement.setAttribute("data-color", color.value);
+          localStorage.setItem("color", color.value);
+        });
+      }
+    });
+  }
+</script>
+
+<style>
+  #settings-dialog::backdrop {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background: rgba(0, 0, 0, 0.5);
+  }
+</style>

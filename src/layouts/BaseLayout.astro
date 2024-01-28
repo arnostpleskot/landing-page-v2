@@ -1,0 +1,92 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<html lang="en" data-color="biege">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body
+    class="bg-secondary font-sans text-primary dark:bg-primary dark:text-secondary"
+  >
+    <main class="container m-auto max-w-7xl space-y-20 p-10 md:p-20">
+      <slot />
+    </main>
+  </body>
+</html>
+
+<script is:inline>
+  const theme = (() => {
+    if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+      const theme = localStorage.getItem("theme");
+
+      if (theme !== "system") {
+        return theme;
+      }
+    }
+
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      return "dark";
+    }
+
+    return "light";
+  })();
+
+  if (theme === "light") {
+    document.documentElement.classList.remove("dark");
+  } else {
+    document.documentElement.classList.add("dark");
+  }
+
+  const color = (() => {
+    if (typeof localStorage !== "undefined" && localStorage.getItem("color")) {
+      return localStorage.getItem("color");
+    }
+  })();
+
+  if (color) {
+    document.documentElement.setAttribute("data-color", color);
+  } else {
+    document.documentElement.setAttribute("data-color", "purple");
+  }
+</script>
+
+<style is:global>
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+
+  @layer base {
+    html[data-color="purple"] {
+      --color-primary: 43 44 86;
+      --color-secondary: 239 241 252;
+      --color-accent: 101 119 236;
+    }
+
+    html[data-color="yellow"] {
+      --color-primary: 31 31 31;
+      --color-secondary: 246 211 6;
+      --color-accent: 66 66 66;
+    }
+
+    html[data-color="gray"] {
+      --color-primary: 26 26 26;
+      --color-secondary: 253 251 232;
+      --color-accent: 91 91 91;
+    }
+
+    html[data-color="beige"] {
+      --color-primary: 76 67 47;
+      --color-secondary: 248 246 242;
+      --color-accent: 170 154 116;
+    }
+  }
+</style>

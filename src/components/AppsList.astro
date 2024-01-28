@@ -1,0 +1,26 @@
+---
+import App from "./App.astro";
+
+import type { App as _App } from "../config";
+
+interface Props {
+  apps: _App[];
+}
+
+const { apps } = Astro.props;
+---
+
+<>
+  {
+    apps && !!apps.length ? (
+      <section>
+        <h2 class="mb-6 text-xl font-black uppercase">Applications</h2>
+        <ul class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {apps.map((app) => {
+            return <App app={app} />;
+          })}
+        </ul>
+      </section>
+    ) : null
+  }
+</>

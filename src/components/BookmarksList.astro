@@ -1,0 +1,42 @@
+---
+import Bookmark from "./Bookmark.astro";
+import type { BookmarkGroup } from "../config";
+
+interface Props {
+  bookmarks: BookmarkGroup[];
+}
+
+const { bookmarks } = Astro.props;
+---
+
+<>
+  {
+    bookmarks && bookmarks.length > 0 ? (
+      <section>
+        <h2 class="mb-6 text-xl font-black uppercase">Bookmarks</h2>
+        <ul class="grid grid-cols-4 gap-4">
+          {bookmarks.map((bookmarksCategory, index) => {
+            return (
+              <li>
+                <h3
+                  id={`bookmark-title-${index}`}
+                  class="mb-4 uppercase text-accent"
+                >
+                  {bookmarksCategory.title}
+                </h3>
+                <ul
+                  aria-labelledby={`bookmark-title-${index}`}
+                  class="space-y-1"
+                >
+                  {bookmarksCategory.bookmarks.map((bookmark) => {
+                    return <Bookmark bookmark={bookmark} />;
+                  })}
+                </ul>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+    ) : null
+  }
+</>

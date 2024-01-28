@@ -1,0 +1,20 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Greetings from "../components/Greetings.astro";
+import AppsList from "../components/AppsList.astro";
+import BookmarksList from "../components/BookmarksList.astro";
+import Settings from "../components/Settings.astro";
+
+import { bookmarks, apps } from "../config";
+
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/900.css";
+---
+
+<BaseLayout title="Landing page">
+  <div class="border- h-[1px] w-full border-t border-t-accent"></div>
+  <Greetings />
+  <AppsList apps={apps} />
+  <BookmarksList bookmarks={bookmarks} />
+  <Settings />
+</BaseLayout>

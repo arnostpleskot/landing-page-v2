@@ -1,0 +1,26 @@
+---
+import dayjs from "dayjs";
+
+const currentTime = new Date();
+
+const greeting = () => {
+  const dayTime = Math.floor(currentTime.getHours() / 6);
+  switch (dayTime) {
+    case 0:
+      return "Good night!";
+    case 1:
+      return "Good morning!";
+    case 2:
+      return "Good afternoon!";
+    case 3:
+      return "Good evening!";
+  }
+};
+---
+
+<section>
+  <p class="mb-4 uppercase">
+    {dayjs(currentTime).format("dddd, D. M. YYYY")}
+  </p>
+  <h1 class="text-5xl font-black">{greeting()}</h1>
+</section>

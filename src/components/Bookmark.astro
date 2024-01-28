@@ -1,0 +1,15 @@
+---
+import type { Bookmark } from "../config";
+
+interface Props {
+  bookmark: Bookmark;
+}
+
+const { bookmark } = Astro.props;
+---
+
+<li class="my-1">
+  <a href={bookmark.url} target="_blank" rel="noopener noreferrer">
+    {bookmark.title}
+  </a>
+</li>
