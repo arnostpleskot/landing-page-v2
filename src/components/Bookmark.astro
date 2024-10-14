@@ -9,7 +9,7 @@ const { bookmark } = Astro.props;
 ---
 
 <li class="my-1">
-  <a href={bookmark.url} target="_blank" rel="noopener noreferrer">
+  <a href={bookmark.url} target="_blank" rel="noopener noreferrer" class="hover:underline">
     {bookmark.title}
   </a>
 </li>
